@@ -33,3 +33,22 @@
     - npm i nodemon
 
 
+## create Folders in src
+    - controllers
+    - db
+    - middlewares
+    - models
+    - routes
+    - utils
+
+# **Install Prettier**
+- **npm i -D prettier**
+- It is used to modify the code when you are working in group.
+
+**es5 : ecmascript 5**<br>
+**semi : Semicolon**
+
+
+## Creating files for prettier extension
+.prettierignore
+.prettierrc
