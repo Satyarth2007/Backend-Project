@@ -52,3 +52,17 @@
 ## Creating files for prettier extension
 .prettierignore
 .prettierrc
+
+
+### DATABASE CONNECTION
+
+- npm i mongoose
+- npm i express
+- npm i express
+
+Write the Database connection code in **src/db/index.js**
+
+write the database_name in **constants.js** file and import in **db/index.js**.
+
+
+### CUSTOM API REFERENCE
