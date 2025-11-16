@@ -66,3 +66,11 @@ write the database_name in **constants.js** file and import in **db/index.js**.
 
 
 ### CUSTOM API REFERENCE
+
+
+## [Model Link](https://app.eraser.io/workspace/ndX9JRFc9hyah66Lmq9Y?origin=share)
+ - it is the model link
+ - it means how many models must be created for databses
+
+
+## installing bcrypt and jsonwebtoken and mongoose-aggregate-paginate-v2.
