@@ -74,3 +74,9 @@ write the database_name in **constants.js** file and import in **db/index.js**.
 
 
 ## installing bcrypt and jsonwebtoken and mongoose-aggregate-paginate-v2.
+
+
+
+### FILE HANDLING
+- production grade projects me file handling khud ke system pe nhi hotii
+- ya tho 3rdn party services use kii jati h ya phir AWS pe 
