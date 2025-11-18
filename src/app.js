@@ -15,4 +15,23 @@ app.use(express.static('public'))
 app.use(cookieParser()) // server se user kii cookie access krne aur cookie set krne ke lie use hota h
 
 
+
+//  routes import
+import userRouter from "./routes/user.routes.js"
+//      --> userRouter :-> this name is taken randomly because we have exported this from the given file which is default export
+
+
+// routes declarartion
+/*
+ - app.get() se hm routes bhi likh rhe the isi same page me
+ - but router ko alag folder me likhne se usko app.get() se access nhi kia ja sakta.
+ - routers ko access krne ke lie middleware ke jaisa  padta h 
+ - eg: is given below
+*/
+app.use("/api/v1/users",userRouter)
+
+// http://localhost:8000/api/v1/users/register
+
+
+
 export { app };
