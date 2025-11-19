@@ -63,7 +63,7 @@ userSchema.pre("save", async function (next) {
 })
 
 
-// user defined function. It does not come with userSchema
+// user defined function. It does not come with userSchema so we use schemaName.methods.isPasswordCorrect
 userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password);
 }
