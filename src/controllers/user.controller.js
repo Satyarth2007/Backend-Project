@@ -146,11 +146,11 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Invalid user credentials")
     }
 
-    const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id)
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id)
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
-     // this way we can send cookies
+    // this way we can send cookies
     const options = {
         /*
         1. Cookies can be modified from frontend also
@@ -162,32 +162,32 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
     return res.status(200)
-    .cookie("accessToken",accessToken,options)  //"key",value,options
-    .cookie("refreshToken",refreshToken,options)
-    .json(
-        new ApiResponse(
-            200,
-            //accessToken , refreshToken ko islie send kr rhe h kyuki agr user ko kuch bhi save krna ho tho kr le 
-            {
-                user: loggedInUser,accessToken, refreshToken
-            },
-            "User logged In successfully"
+        .cookie("accessToken", accessToken, options)  //"key",value,options
+        .cookie("refreshToken", refreshToken, options)
+        .json(
+            new ApiResponse(
+                200,
+                //accessToken , refreshToken ko islie send kr rhe h kyuki agr user ko kuch bhi save krna ho tho kr le 
+                {
+                    user: loggedInUser, accessToken, refreshToken
+                },
+                "User logged In successfully"
+            )
         )
-    )
 
 })
 
 
-const logOutUser = asyncHandler(async (req,res) => {
+const logOutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(
         req.user._id,
         {
-            $set : {
+            $set: {
                 refreshToken: undefined
             }
         },
         {
-            new : true
+            new: true
         }
     )
 
@@ -196,53 +196,53 @@ const logOutUser = asyncHandler(async (req,res) => {
         secure: true,
     }
     return res
-    .status(200)
-    .clearCookie("accessToken",options)
-    .clearCookie("refreshToken",options)
-    .json(new ApiResponse(200,{},"User logged out "))
+        .status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json(new ApiResponse(200, {}, "User logged out "))
 })
 
 
-const refreshAccessToken = asyncHandler(async(req,res) => {
+const refreshAccessToken = asyncHandler(async (req, res) => {
     const inComingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
     if (!inComingRefreshToken) {
-        throw new ApiError(401,"Unauthorized Request")
+        throw new ApiError(401, "Unauthorized Request")
     }
 
     try {
-        const decodedToken = jwt.verify(inComingRefreshToken,process.env.REFRESH_TOKEN_SECRET)
+        const decodedToken = jwt.verify(inComingRefreshToken, process.env.REFRESH_TOKEN_SECRET)
 
-    const user = User.findById(decodedToken?._id)
-    if (!user) {
-        throw new ApiError(401,"Invalid Refresh Token")
-    }
+        const user = User.findById(decodedToken?._id)
+        if (!user) {
+            throw new ApiError(401, "Invalid Refresh Token")
+        }
 
-    if (inComingRefreshToken !== user?.refreshToken) {
-        throw new ApiError(401,"Refresh Token is Expired or Used")
-    }
+        if (inComingRefreshToken !== user?.refreshToken) {
+            throw new ApiError(401, "Refresh Token is Expired or Used")
+        }
 
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
+        const options = {
+            httpOnly: true,
+            secure: true
+        }
 
-    const {accessToken, newRefreshToken} = await generateAccessAndRefreshTokens(user._id)
+        const { accessToken, newRefreshToken } = await generateAccessAndRefreshTokens(user._id)
 
-    return res
-    .status(200)
-    .cookie("accessToken",accessToken,options)
-    .cookie("refreshToken",newRefreshToken,options)
-    .json(
-        new ApiResponse(
-            200,
-            {
-                accessToken,refreshToken:newRefreshToken
-            },
-            "Access token refreshed"
-        )
-    )
+        return res
+            .status(200)
+            .cookie("accessToken", accessToken, options)
+            .cookie("refreshToken", newRefreshToken, options)
+            .json(
+                new ApiResponse(
+                    200,
+                    {
+                        accessToken, refreshToken: newRefreshToken
+                    },
+                    "Access token refreshed"
+                )
+            )
     } catch (error) {
-        throw new ApiError(401,error?.message||"Invalid Refresh Token")
+        throw new ApiError(401, error?.message || "Invalid Refresh Token")
     }
 
 })
